@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>工业空分装置智能优化系统 v2.0 - 简化版</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+            min-height: 100vh;
+            padding: 10px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            overflow: auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 20px;
+            margin: 0;
+        }
+
+        .header .subtitle {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .upload-section {
+            padding: 15px;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .config-section {
+            background: white;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+        }
+
+        .config-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .config-label {
+            font-size: 13px;
+            color: #333;
+            min-width: 120px;
+        }
+
+        .config-input {
+            flex: 1;
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+
+        .config-checkbox {
+            width: 18px;
+            height: 18px;
+        }
+
+        .upload-area {
+            border: 2px dashed #2196F3;
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .upload-area:hover {
+            background: #e3f2fd;
+        }
+
+        .upload-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .upload-text {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .upload-hint {
+            font-size: 12px;
+            color: #6c757d;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .file-info {
+            margin-top: 15px;
+            padding: 10px;
+            background: #d4edda;
+            border-radius: 6px;
+            display: none;
+        }
+
+        .file-info.show {
+            display: block;
+        }
+
+        .control-bar {
+            padding: 10px 15px;
+            background: #fff;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(33, 150, 243, 0.4);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+            background: #5a6268;
+        }
+
+        .btn-secondary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-demo {
+            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+            color: white;
+        }
+
+        .btn-demo:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(33, 150, 243, 0.4);
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+            min-width: 200px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #2196F3 0%, #1976D2 100%);
+            transition: width 0.5s ease;
+            border-radius: 4px;
+            width: 0%;
+        }
+
+        .main-content {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .left-panel {
+            width: 50%;
+            padding: 15px;
+            overflow-y: auto;
+            border-right: 1px solid #e9ecef;
+            background: #fafbfc;
+        }
+
+        .right-panel {
+            width: 50%;
+            padding: 15px;
+            overflow-y: auto;
+            background: #f8f9fa;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #2196F3;
+        }
+
+        .data-preview {
+            background: white;
+            border-radius: 6px;
+            padding: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .data-table th {
+            background: #f8f9fa;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .data-table tr:hover {
+            background: #e3f2fd;
+        }
+
+        .status-badge {
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .status-badge.normal {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-badge.warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-badge.danger {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .phase {
+            margin-bottom: 15px;
+        }
+
+        .phase-header {
+            background: white;
+            border-radius: 6px;
+            padding: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .phase-header:hover {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .phase-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+            background: #e9ecef;
+            color: #6c757d;
+        }
+
+        .phase-header.running .phase-icon {
+            background: #ffc107;
+            color: #333;
+            animation: pulse 1s infinite;
+        }
+
+        .phase-header.completed .phase-icon {
+            background: #28a745;
+            color: white;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .phase-info {
+            flex: 1;
+        }
+
+        .phase-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .phase-status {
+            font-size: 12px;
+            color: #6c757d;
+        }
+
+        .phase-header.running .phase-status {
+            color: #ffc107;
+        }
+
+        .phase-header.completed .phase-status {
+            color: #28a745;
+        }
+
+        .phase-toggle {
+            font-size: 18px;
+            color: #6c757d;
+            transition: transform 0.3s ease;
+        }
+
+        .phase-header.collapsed .phase-toggle {
+            transform: rotate(-90deg);
+        }
+
+        .phase-steps {
+            margin-top: 8px;
+            padding-left: 36px;
+        }
+
+        .step {
+            background: white;
+            border-radius: 4px;
+            padding: 8px 10px;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .step.pending {
+            opacity: 0.5;
+        }
+
+        .step.running {
+            background: #fff3cd;
+            border-left: 3px solid #ffc107;
+        }
+
+        .step.completed {
+            background: #d4edda;
+            border-left: 3px solid #28a745;
+        }
+
+        .step.error {
+            background: #f8d7da;
+            border-left: 3px solid #dc3545;
+        }
+
+        .step-number {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: bold;
+            flex-shrink: 0;
+            background: #e9ecef;
+            color: #6c757d;
+        }
+
+        .step.running .step-number {
+            background: #ffc107;
+            color: #333;
+        }
+
+        .step.completed .step-number {
+            background: #28a745;
+            color: white;
+        }
+
+        .step.error .step-number {
+            background: #dc3545;
+            color: white;
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step-name {
+            font-size: 13px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .step-detail {
+            font-size: 11px;
+            color: #6c757d;
+        }
+
+        .step-status {
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        .step-status.pending {
+            background: #e9ecef;
+            color: #6c757d;
+        }
+
+        .step-status.running {
+            background: #ffc107;
+            color: #333;
+        }
+
+        .step-status.completed {
+            background: #28a745;
+            color: white;
+        }
+
+        .step-status.error {
+            background: #dc3545;
+            color: white;
+        }
+
+        .log-output {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 12px;
+            line-height: 1.5;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .log-line {
+            margin-bottom: 2px;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        .log-line.success { color: #4ec9b0; }
+        .log-line.warning { color: #dcdcaa; }
+        .log-line.error { color: #f48771; }
+        .log-line.info { color: #9cdcfe; }
+
+        .results-panel {
+            background: white;
+            border-radius: 6px;
+            padding: 15px;
+            margin-top: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .result-item {
+            padding: 10px;
+            margin-bottom: 8px;
+            border-radius: 4px;
+            border-left: 3px solid #2196F3;
+            background: #f8f9fa;
+        }
+
+        .result-item.warning {
+            border-left-color: #ffc107;
+        }
+
+        .result-item.error {
+            border-left-color: #dc3545;
+        }
+
+        .result-label {
+            font-weight: bold;
+            color: #333;
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+
+        .result-value {
+            font-size: 12px;
+            color: #6c757d;
+            white-space: pre-wrap;
+        }
+
+        .download-btn {
+            background: #28a745;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+
+        .download-btn:hover {
+            background: #218838;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        .log-output::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .log-output::-webkit-scrollbar-track {
+            background: #1e1e1e;
+        }
+
+        .log-output::-webkit-scrollbar-thumb {
+            background: #4a4a4;
+        }
+
+        .log-output::-webkit-scrollbar-thumb:hover {
+            background: #5a6268;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div>
+                <h1>工业空分装置智能优化系统 v2.0</h1>
+                <div class="subtitle">简化版 - 数据上传与分析</div>
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <div style="display: flex; gap: 10px;">
+                    <span>模式:</span>
+                    <span class="status-badge normal">浏览器端</span>
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <span>状态:</span>
+                    <span class="status-badge normal" id="overallStatus">就绪</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="upload-section">
+            <div class="config-section">
+                <div class="config-row">
+                    <span class="config-label">Dify API URL:</span>
+                    <input type="text" class="config-input" id="difyApiUrl" placeholder="http://localhost/v1/chat-messages" value="http://localhost/v1/chat-messages">
+                </div>
+                <div class="config-row">
+                    <span class="config-label">Dify API Key:</span>
+                    <input type="password" class="config-input" id="difyApiKey" placeholder="app-xxxxxxxxxxxxxxxxxxxx">
+                </div>
+                <div class="config-row">
+                    <span class="config-label">启用多步思考:</span>
+                    <input type="checkbox" class="config-checkbox" id="enableCoT" checked>
+                </div>
+                <div class="config-row" style="justify-content: flex-end;">
+                    <button class="btn btn-secondary" onclick="loadEnvConfig()" style="padding: 6px 12px; font-size: 12px;">从 .env 加载</button>
+                </div>
+            </div>
+
+            <div class="upload-area" id="uploadArea" onclick="document.getElementById('fileInput').click()">
+                <div class="upload-icon">📁</div>
+                <div class="upload-text">点击或拖拽上传传感器数据文件</div>
+                <div class="upload-hint">支持 CSV、Excel 格式 (.csv, .xlsx, .xls)</div>
+                <input type="file" id="fileInput" class="file-input" data-testid="chat-input" accept=".csv,.xlsx,.xls" onchange="handleFileSelect(event)">
+            </div>
+            <div style="text-align: center; margin-top: 15px;">
+                <button class="btn btn-demo" onclick="loadDemoData()">📊 使用示例数据</button>
+            </div>
+            <div class="file-info" id="fileInfo">
+                <strong>已选择文件:</strong> <span id="fileName"></span>
+                <br>
+                <strong>文件大小:</strong> <span id="fileSize"></span>
+            </div>
+        </div>
+
+        <div class="control-bar">
+            <button class="btn btn-primary" id="startBtn" data-testid="chat-send" onclick="startAnalysis()" disabled>开始分析</button>
+            <button class="btn btn-secondary" id="resetBtn" onclick="resetAnalysis()" disabled>重置</button>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+            <span style="font-size: 13px; color: #6c757d;" id="progressText">0%</span>
+        </div>
+
+        <div class="main-content">
+            <div class="left-panel">
+                <div class="section-title">数据预览</div>
+                <div class="data-preview">
+                    <table class="data-table" id="dataTable">
+                        <thead>
+                            <tr>
+                                <th>标签ID</th>
+                                <th>描述</th>
+                                <th>当前值</th>
+                                <th>单位</th>
+                                <th>设计值</th>
+                                <th>状态</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dataTableBody">
+                            <tr>
+                                <td colspan="6" style="text-align: center; color: #6c757d;">请上传数据文件</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="section-title">分析流程</div>
+                <div class="phase" id="phase-init">
+                    <div class="phase-header" onclick="togglePhase('init')">
+                        <div class="phase-icon">1</div>
+                        <div class="phase-info">
+                            <div class="phase-title">数据加载与处理</div>
+                            <div class="phase-status" id="phase-init-status">待执行</div>
+                        </div>
+                        <div class="phase-toggle">▼</div>
+                    </div>
+                    <div class="phase-steps" id="phase-init-steps"></div>
+                </div>
+
+                <div class="phase" id="phase-analysis">
+                    <div class="phase-header" onclick="togglePhase('analysis')">
+                        <div class="phase-icon">2</div>
+                        <div class="phase-info">
+                            <div class="phase-title">语义分析与推理</div>
+                            <div class="phase-status" id="phase-analysis-status">待执行</div>
+                        </div>
+                        <div class="phase-toggle">▼</div>
+                    </div>
+                    <div class="phase-steps" id="phase-analysis-steps"></div>
+                </div>
+            </div>
+
+            <div class="right-panel">
+                <div class="section-title">实时日志</div>
+                <div class="log-output" id="logOutput">
+                    <div class="log-line">等待开始分析...</div>
+                </div>
+
+                <div class="section-title">分析结果</div>
+                <div class="results-panel" id="resultsPanel" data-testid="chat-response" style="display: none;">
+                    <div id="resultsContent"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let ws;
+        let uploadedData = null;
+        let isRunning = false;
+        
+        // 初始化时加载配置
+        document.addEventListener('DOMContentLoaded', () => {
+            renderSteps();
+            connectWebSocket();
+            // 自动从URL参数加载模式
+            const urlParams = new URLSearchParams(window.location.search);
+            const mode = urlParams.get('mode');
+            if (mode) {
+                // 如果需要，这里可以自动切换UI上的模式选择
+            }
+        });
+
+        function connectWebSocket() {
+            const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+            // 端口与 start_web.py 中定义的一致
+            const wsPort = 8001; 
+            const wsUrl = `${protocol}//${window.location.hostname}:${wsPort}`;
+            
+            console.log(`正在连接 WebSocket: ${wsUrl}`);
+            ws = new WebSocket(wsUrl);
+            
+            ws.onopen = function() {
+                console.log('WebSocket 连接成功');
+                document.getElementById('overallStatus').textContent = '已连接';
+                document.getElementById('overallStatus').className = 'status-badge success';
+                document.getElementById('startBtn').disabled = false;
+                addLog('WebSocket 连接成功', 'success');
+            };
+            
+            ws.onclose = function() {
+                console.log('WebSocket 连接断开');
+                document.getElementById('overallStatus').textContent = '断开连接';
+                document.getElementById('overallStatus').className = 'status-badge danger';
+                setTimeout(connectWebSocket, 3000);
+            };
+            
+            ws.onmessage = function(event) {
+                try {
+                    const data = JSON.parse(event.data);
+                    if (data.type === 'log') {
+                        addLog(data.message, data.level);
+                    } else if (data.type === 'progress') {
+                        updateProgress(data.current, data.total);
+                    } else if (data.type === 'phase_update') {
+                        if (data.status === 'running') {
+                            updatePhaseStatus(data.phase, 'running');
+                            if (data.step !== undefined) {
+                                // 简单映射：假设后端 step 索引与前端一致
+                                // 实际项目中可能需要更复杂的映射
+                                updateStepStatus(data.phase, data.step, 'running');
+                            }
+                        } else if (data.status === 'completed') {
+                            updatePhaseStatus(data.phase, 'completed');
+                             if (data.step !== undefined) {
+                                updateStepStatus(data.phase, data.step, 'completed');
+                            }
+                        } else if (data.status === 'error') {
+                            updatePhaseStatus(data.phase, 'error');
+                        }
+                    } else if (data.type === 'result') {
+                        displayResults(data.data);
+                        isRunning = false;
+                        document.getElementById('startBtn').disabled = false;
+                        document.getElementById('resetBtn').disabled = false;
+                    }
+                } catch (e) {
+                    console.error('消息解析错误:', e);
+                }
+            };
+        }
+
+        let currentPhase = 0;
+
+        const initSteps = [
+            { name: '解析数据文件', detail: '读取并解析CSV/Excel数据' },
+            { name: '验证数据格式', detail: '检查数据完整性' },
+            { name: '标准化数据', detail: '转换为标准格式' },
+            { name: '加载设计规范', detail: '获取设计参考值' }
+        ];
+
+        const analysisSteps = [
+            { name: '进行语义分析', detail: '识别异常指标' },
+            { name: '计算偏差值', detail: '计算与设计值的偏差' },
+            { name: '知识库检索', detail: '获取可行优化手段' },
+            { name: 'AI推理分析', detail: '五维深度诊断' },
+            { name: '生成决策建议', detail: '提供操作建议' }
+        ];
+
+        const reportSteps = [
+            { name: '生成分析报告', detail: '创建PDF/Markdown报告' }
+        ];
+        
+        function loadDemoData() {
+            addLog('正在加载示例数据...', 'info');
+            document.getElementById('fileName').textContent = '【原始数据】运行诊断.xlsx';
+            document.getElementById('fileSize').textContent = '~50 KB';
+            document.getElementById('fileInfo').classList.add('show');
+            document.getElementById('fileInput').value = ''; // Ensure no file is selected so backend uses default
+            document.getElementById('startBtn').disabled = false;
+            addLog('✓ 成功加载示例数据', 'success');
+            addLog('  - 时间跨度: 2025-11-30 至 2025-12-01', 'info');
+        }
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            document.getElementById('fileName').textContent = file.name;
+            document.getElementById('fileSize').textContent = (file.size / 1024).toFixed(1) + ' KB';
+            document.getElementById('fileInfo').classList.add('show');
+            document.getElementById('startBtn').disabled = false;
+            
+            addLog(`已选择文件: ${file.name}`, 'info');
+        }
+
+        function addLog(message, level = 'info') {
+            const logOutput = document.getElementById('logOutput');
+            const div = document.createElement('div');
+            div.className = `log-line ${level}`;
+            div.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            logOutput.appendChild(div);
+            logOutput.scrollTop = logOutput.scrollHeight;
+        }
+
+        function updateProgress(current, total) {
+            const percentage = Math.round((current / total) * 100);
+            const progressBar = document.getElementById('progressBar');
+            if (progressBar) progressBar.style.width = `${percentage}%`;
+            const progressText = document.getElementById('progressText');
+            if (progressText) progressText.textContent = `${percentage}%`;
+        }
+
+        function renderSteps() {
+            const initContainer = document.getElementById('phase-init-steps');
+            const analysisContainer = document.getElementById('phase-analysis-steps');
+            
+            // 确保容器存在
+            if (initContainer) initContainer.innerHTML = initSteps.map((step, i) => createStepElement(step, i, 'init')).join('');
+            if (analysisContainer) analysisContainer.innerHTML = analysisSteps.map((step, i) => createStepElement(step, i, 'analysis')).join('');
+        }
+
+        function createStepElement(step, index, phaseId) {
+            return `
+                <div class="step pending" id="step-${phaseId}-${index}">
+                    <div class="step-number">${index + 1}</div>
+                    <div class="step-content">
+                        <div class="step-name">${step.name}</div>
+                        <div class="step-detail">${step.detail}</div>
+                    </div>
+                    <div class="step-status pending">待执行</div>
+                </div>
+            `;
+        }
+
+        function updateStepStatus(phaseId, stepIndex, status) {
+            const stepEl = document.getElementById(`step-${phaseId}-${stepIndex}`);
+            if (!stepEl) return;
+            
+            stepEl.classList.remove('pending', 'running', 'completed', 'error');
+            stepEl.classList.add(status);
+            
+            const statusEl = stepEl.querySelector('.step-status');
+            if (statusEl) {
+                statusEl.className = `step-status ${status}`;
+                statusEl.textContent = status === 'running' ? '运行中' : 
+                                       status === 'completed' ? '已完成' : 
+                                       status === 'error' ? '失败' : '待执行';
+            }
+        }
+
+        function updatePhaseStatus(phaseId, status) {
+            const phaseEl = document.getElementById(`phase-${phaseId}`);
+            if (!phaseEl) return;
+            
+            const header = phaseEl.querySelector('.phase-header');
+            const statusEl = document.getElementById(`phase-${phaseId}-status`);
+            
+            if (header) {
+                header.classList.remove('running', 'completed', 'error');
+                if (status !== 'pending') header.classList.add(status);
+            }
+            
+            if (statusEl) {
+                statusEl.textContent = status === 'running' ? '运行中' : 
+                                       status === 'completed' ? '已完成' : 
+                                       status === 'error' ? '失败' : '待执行';
+                statusEl.className = `phase-status ${status}`;
+            }
+        }
+
+        function togglePhase(phaseId) {
+            const phase = document.getElementById(`phase-${phaseId}`);
+            if (!phase) return;
+            
+            const header = phase.querySelector('.phase-header');
+            const steps = phase.querySelector('.phase-steps');
+            
+            if (steps.style.display === 'none') {
+                steps.style.display = 'block';
+                header.classList.remove('collapsed');
+            } else {
+                steps.style.display = 'none';
+                header.classList.add('collapsed');
+            }
+        }
+        
+        async function startAnalysis() {
+            if (isRunning) return;
+            
+            // 获取当前选择的模式（这里简化处理，默认 direct 或从 UI 获取）
+            // 实际 UI 需要添加模式选择器，或者沿用之前的 Dify 配置
+            const mode = 'direct'; // 默认使用 Direct LLM 模式，或者根据 UI 配置
+            
+            const payload = {
+                type: 'start',
+                mode: mode,
+                // 如果需要，传递配置
+                dify_config: {
+                    url: document.getElementById('difyApiUrl').value,
+                    key: document.getElementById('difyApiKey').value
+                },
+                enable_cot: document.getElementById('enableCoT').checked
+            };
+
+            isRunning = true;
+            document.getElementById('startBtn').disabled = true;
+            document.getElementById('resetBtn').disabled = false;
+            document.getElementById('overallStatus').textContent = '运行中';
+            document.getElementById('overallStatus').className = 'status-badge warning';
+            
+            // 清空旧日志
+            const logOutput = document.getElementById('logOutput');
+            logOutput.innerHTML = '';
+            addLog('开始分析流程...', 'info');
+
+            const fileInput = document.getElementById('fileInput');
+            if (fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const base64 = e.target.result.split(',')[1];
+                    payload.file_data = base64;
+                    payload.file_name = file.name;
+                    if (ws && ws.readyState === WebSocket.OPEN) {
+                        ws.send(JSON.stringify(payload));
+                    } else {
+                        addLog('WebSocket 未连接，无法发送请求', 'error');
+                        isRunning = false;
+                    }
+                };
+                reader.readAsDataURL(file);
+            } else {
+                // 使用后端默认文件
+                if (ws && ws.readyState === WebSocket.OPEN) {
+                    ws.send(JSON.stringify(payload));
+                } else {
+                    addLog('WebSocket 未连接，无法发送请求', 'error');
+                    isRunning = false;
+                }
+            }
+        }
+
+        function displayResults(result) {
+            const resultsPanel = document.getElementById('resultsPanel');
+            const resultsContent = document.getElementById('resultsContent');
+
+            resultsPanel.style.display = 'block';
+            
+            // 使用 marked 渲染 Markdown (如果已加载)
+            const md = (text) => typeof marked !== 'undefined' ? marked.parse(text || '') : text;
+
+            resultsContent.innerHTML = `
+                <div class="result-item ${result.abnormal_indicators.length > 0 ? 'warning' : ''}">
+                    <div class="result-label">异常指标 (${result.abnormal_indicators.length})</div>
+                    ${result.abnormal_indicators.length > 0 ? result.abnormal_indicators.map(ind => `
+                        <div class="result-value" style="margin-top: 4px;">• ${ind.name}: ${ind.level} (当前值: ${ind.value})</div>
+                    `).join('') : '<div class="result-value">无异常指标</div>'}
+                </div>
+                <div class="result-item">
+                    <div class="result-label">AI 原因分析</div>
+                    <div class="result-value">${md(result.reasoning)}</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">优化建议</div>
+                    <div class="result-value">${md(result.suggestion)}</div>
+                </div>
+                ${result.warning ? `
+                <div class="result-item warning">
+                    <div class="result-label">安全警告</div>
+                    <div class="result-value">${result.warning}</div>
+                </div>` : ''}
+                <div class="result-item">
+                    <div class="result-label">决策结果</div>
+                    <div class="result-value">${result.decision}</div>
+                </div>
+            `;
+        }
+
+        function resetAnalysis() {
+            isRunning = false;
+            
+            // If file is selected, start should be enabled.
+            const fileName = document.getElementById('fileName').textContent;
+            document.getElementById('startBtn').disabled = !fileName;
+            
+            document.getElementById('resetBtn').disabled = true;
+            document.getElementById('overallStatus').textContent = '就绪';
+            document.getElementById('overallStatus').className = 'status-badge normal';
+            
+            // Clear logs
+            const logOutput = document.getElementById('logOutput');
+            logOutput.innerHTML = '<div class="log-line">等待开始分析...</div>';
+            
+            // Reset progress
+            updateProgress(0, 100);
+            
+            // Reset phases
+            updatePhaseStatus('init', 'pending');
+            updatePhaseStatus('analysis', 'pending');
+            
+            // Reset steps
+            document.querySelectorAll('.step').forEach(el => {
+                el.classList.remove('running', 'completed', 'error');
+                el.classList.add('pending');
+                const statusEl = el.querySelector('.step-status');
+                if (statusEl) {
+                    statusEl.textContent = '待执行';
+                    statusEl.className = 'step-status pending';
+                }
+            });
+            
+            // Hide results
+            document.getElementById('resultsPanel').style.display = 'none';
+            document.getElementById('resultsContent').innerHTML = '';
+            
+            // Reset data table
+            document.getElementById('dataTableBody').innerHTML = `
+                            <tr>
+                                <td colspan="6" style="text-align: center; color: #6c757d;">请上传数据文件</td>
+                            </tr>
+            `;
+            
+            addLog('状态已重置', 'info');
+        }
+
+        function loadEnvConfig() {
+            addLog('正在加载配置...', 'info');
+            // Simulate config loading
+            setTimeout(() => {
+                addLog('配置加载成功 (默认)', 'success');
+            }, 500);
+        }
+
+    </script>
+</body>
+</html>

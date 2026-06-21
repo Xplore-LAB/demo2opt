@@ -1,0 +1,70 @@
+html,
+body,
+#app {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: #d6d6d6;
+  color: #1f1f1f;
+  font-family: "Microsoft YaHei", "Segoe UI", Arial, sans-serif;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+.dcs-page .el-button {
+  min-height: 28px;
+  border-radius: 2px;
+  border-color: #4f4f4f;
+  background: #dcdcdc;
+  color: #1f1f1f;
+  font-weight: 700;
+  box-shadow: none;
+}
+
+.dcs-page .el-button:hover {
+  border-color: #4f4f4f;
+  background: #cfcfcf;
+  color: #1f1f1f;
+}
+
+.dcs-page .el-button--primary {
+  border-color: #2e75b6;
+  background: #2e75b6;
+  color: #fff;
+}
+
+.dcs-page .el-button--danger {
+  border-color: #a00000;
+  background: #d64541;
+  color: #fff;
+}
+
+.dcs-page .el-radio-button__inner,
+.dcs-page .el-checkbox-button__inner,
+.dcs-page .el-input__wrapper,
+.dcs-page .el-select__wrapper {
+  border-radius: 2px;
+  border-color: #7a7a7a;
+  background: #e3e3e3;
+  box-shadow: none;
+}
+
+.dcs-page .el-radio-button__original-radio:checked + .el-radio-button__inner,
+.dcs-page .el-checkbox-button.is-checked .el-checkbox-button__inner {
+  border-color: #2e75b6;
+  background: #2e75b6;
+  color: #fff;
+  box-shadow: none;
+}
+
+.dcs-page .el-select-dropdown,
+.dcs-page .el-popper {
+  border-radius: 2px;
+}

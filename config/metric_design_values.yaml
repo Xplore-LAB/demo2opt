@@ -1,0 +1,32 @@
+version: v1
+
+description: 工业空分装置智能优化系统 - 指标设计值配置
+
+metrics:
+  Pump_Loss_kW:
+    name_cn: 低温泵冷损
+    design_value: 50.0
+    min_value: 0.0
+    max_value: 100.0
+    unit: kW
+
+  ExpanderCold_kW:
+    name_cn: 膨胀机制冷量
+    design_value: 1000.0
+    min_value: 900.0
+    max_value: 1100.0
+    unit: kW
+
+  TotalColdLoss_kW:
+    name_cn: 综合冷损
+    design_value: 150.0
+    min_value: 0.0
+    max_value: 300.0
+    unit: kW
+
+  ColdLossRatio:
+    name_cn: 冷损占比
+    design_value: 0.15
+    min_value: 0.0
+    max_value: 0.5
+    unit: ratio

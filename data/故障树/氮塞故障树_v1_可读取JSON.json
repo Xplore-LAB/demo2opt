@@ -1,0 +1,693 @@
+{
+  "tree_id": "ASU_N2_PLUG_FAULT_TREE_V1",
+  "tree_name": "空分装置疑似氮塞故障树",
+  "version": "1.0",
+  "basis": [
+    "氮塞问题集（缺少诊断流程图，需要按流程分析，做好路由）(2).md",
+    "氮塞故障树与溯源逻辑(1).md"
+  ],
+  "design_rules": {
+    "root_event": "疑似氮塞",
+    "levels": "2-3层为主",
+    "logic": "顶事件确认采用AND + K_OF_N；一级原因采用OR；具体原因采用AND/K_OF_N",
+    "no_cycle": true,
+    "leaf_requirement": "叶子节点必须落到测点、趋势、阈值、操作记录或人工确认项"
+  },
+  "root_event": {
+    "node_id": "T0",
+    "node_name": "疑似氮塞",
+    "node_type": "top_event",
+    "gate": "AND",
+    "description": "粗氩冷凝器内不凝性氮组分积聚，导致换热温差缩小、粗氩塔精馏能力下降、粗氩纯度下降。",
+    "confirm_rule": {
+      "logic": "AND",
+      "conditions": [
+        {
+          "rule_id": "T0-R1",
+          "tag": "AI705",
+          "name": "粗氩纯度",
+          "operator": "trend_down",
+          "window": "15-30min",
+          "threshold_reference": "正常≥99.9%，严重可降至80%以下；预警阶段99.5%-99.7%",
+          "description": "AI705持续下降是最核心的氮塞确认信号"
+        },
+        {
+          "logic": "K_OF_N",
+          "k": 2,
+          "conditions": [
+            {
+              "rule_id": "T0-R2",
+              "tag": "PDI701/粗氩塔Ⅱ阻力",
+              "operator": "trend_down",
+              "threshold_reference": "设计值附近；预警阶段下降1%-3%",
+              "description": "粗氩塔阻力下降或波动"
+            },
+            {
+              "rule_id": "T0-R3",
+              "tag": "LIC702",
+              "operator": "trend_up",
+              "threshold_reference": "设定值附近",
+              "description": "粗氩冷凝器液空液位上涨"
+            },
+            {
+              "rule_id": "T0-R4",
+              "tag": "FI701",
+              "operator": "trend_down",
+              "threshold_reference": "正常工况流量",
+              "description": "氩馏分流量减少"
+            },
+            {
+              "rule_id": "T0-R5",
+              "tag": "FIC701",
+              "operator": "trend_down",
+              "threshold_reference": "正常工况流量",
+              "description": "粗氩流量减少"
+            },
+            {
+              "rule_id": "T0-R6",
+              "tag": "CONDENSER_DELTA_T",
+              "operator": "trend_down",
+              "threshold_reference": "设计温差值",
+              "description": "粗氩冷凝器换热温差缩小"
+            },
+            {
+              "rule_id": "T0-R7",
+              "tag": "AR_FRACTION_N2",
+              "operator": ">=",
+              "value": 0.1,
+              "unit": "%",
+              "threshold_reference": "正常0%-0.06%，≥0.1%为氮塞发生",
+              "description": "氩馏分含氮量达到氮塞临界值"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "route_rules": [
+    {
+      "route_id": "R-A",
+      "route_name": "主塔问题引发",
+      "logic": "priority",
+      "conditions": [
+        "主塔参数先异常：氧气纯度下降、V3开度变化、氧取出量增加、膨胀空气量增加、氮气/污氮气取出量减少",
+        "氩馏分含氮量在氮塞前已>0.1%",
+        "氩馏分含氩量多表现为上升，膨胀空气量过大时可出现先降后升",
+        "粗氩塔参数随后响应：AI705下降、PDI下降、LIC702上涨"
+      ],
+      "route_to": "A"
+    },
+    {
+      "route_id": "R-B",
+      "route_name": "粗氩塔自身问题引发",
+      "logic": "priority",
+      "conditions": [
+        "粗氩冷凝器液空侧参数先异常：液位过高、液空纯度偏高、蒸发侧压力偏高或换热温差缩小",
+        "氩馏分含氮量在早期正常≤0.06%或仅轻微偏高",
+        "氧气纯度在氮塞初期基本稳定，严重后才可能下降"
+      ],
+      "route_to": "B"
+    },
+    {
+      "route_id": "R-C",
+      "route_name": "前端/空气系统扰动引发",
+      "logic": "priority",
+      "conditions": [
+        "分子筛切换、均压、放空阀动作或空压机负荷扰动先发生",
+        "进塔空气量出现振荡，随后主塔压力、氧纯度、氩馏分组成变化",
+        "主要作为A类主塔问题的外部触发源"
+      ],
+      "route_to": "C"
+    },
+    {
+      "route_id": "R-D",
+      "route_name": "处置不当导致加重或复发",
+      "logic": "after_confirm",
+      "conditions": [
+        "氮塞已确认后，V712未及时/未彻底放空",
+        "氩馏分抽取量骤减，V3/V2大幅操作，氧取出量一次性大幅减少",
+        "AI705未恢复即过早投用精氩塔"
+      ],
+      "route_to": "D"
+    }
+  ],
+  "nodes": [
+    {
+      "node_id": "A",
+      "parent_id": "T0",
+      "node_name": "主塔问题导致氩馏分含氮量超标",
+      "node_type": "cause_group",
+      "gate": "OR",
+      "diagnosis_focus": "先看时间顺序、氩馏分含氮量、氧气纯度、操作记录。"
+    },
+    {
+      "node_id": "A1",
+      "parent_id": "A",
+      "node_name": "氧气取出量过大",
+      "node_type": "basic_cause",
+      "gate": "AND",
+      "cause_chain": "氧气取出量↑→上塔提馏段回流比↑→氧气纯度↓→富氩区下移→氩馏分含氩量/含氮量↑→氮塞",
+      "evidence": [
+        {
+          "tag": "FIQC102/氧气取出量",
+          "criterion": "超过设计值、超过额定值105%，或较历史稳定值持续增大"
+        },
+        {
+          "tag": "AIAS102/产品氧纯度",
+          "criterion": "持续下降；<99.6%需关注；99.4%-99.6%预警；严重可至93%以下"
+        },
+        {
+          "tag": "AR_FRACTION_N2",
+          "criterion": ">0.06%预警，≥0.1%判为氮塞风险/发生"
+        },
+        {
+          "tag": "AI701/氩馏分含氩量",
+          "criterion": "正常9%-10%，>12%需警惕；多数主塔原因下上升"
+        },
+        {
+          "tag": "AR_FRACTION_O2",
+          "criterion": "正常90%-91%，<90.5%轻微氮塞预警，<90%严重预警"
+        }
+      ],
+      "action": [
+        "适当减少氧气取出量，少则100-200 m³/h，多则约氧产量5%，分2-3次执行",
+        "同步检查氩馏分含氮量、氧纯度、AI705和PDI701",
+        "禁止一次性大幅减少氧气取出量"
+      ],
+      "verify": [
+        "AIAS102≥99.6%并稳定30min",
+        "AR_FRACTION_N2≤0.06%",
+        "AI705≥99.9%",
+        "PDI701回升并稳定"
+      ],
+      "source_qids": [
+        "Q4",
+        "Q5",
+        "Q6",
+        "Q7",
+        "Q8",
+        "Q30",
+        "Q31"
+      ]
+    },
+    {
+      "node_id": "A2",
+      "parent_id": "A",
+      "node_name": "液氮至上塔调节阀V3开度过大",
+      "node_type": "basic_cause",
+      "gate": "AND",
+      "cause_chain": "V3开度↑→上塔下流液氮量↑→上塔回流比↑→氧气纯度↓→富氩区下移→氩馏分含氮量↑→氮塞",
+      "evidence": [
+        {
+          "tag": "V3阀开度",
+          "criterion": "较正常开度增幅>2%-3%需关注；案例57%→62%约30min引发严重氮塞"
+        },
+        {
+          "tag": "AIAS102/产品氧纯度",
+          "criterion": "持续下降；≥99.6%为长周期运行要求"
+        },
+        {
+          "tag": "AR_FRACTION_N2",
+          "criterion": "0%-0.06%正常，≥0.1%为临界/发生"
+        },
+        {
+          "tag": "AI701/氩馏分含氩量",
+          "criterion": "正常9%-10%，初期上升"
+        },
+        {
+          "tag": "AR_FRACTION_O2",
+          "criterion": "正常90%-91%，下降"
+        },
+        {
+          "tag": "LIC702/PDI701/AI705",
+          "criterion": "随后表现为LIC702上涨、PDI下降、AI705下降"
+        }
+      ],
+      "action": [
+        "关小V3阀，通常以1%-2%开度或1-2度为宜，分步执行，每步稳定15-30min",
+        "根据下塔液空纯度和主冷液位控制上、下塔回流比",
+        "与V712放空、减少氧取出量、增加污氮取出量联动"
+      ],
+      "verify": [
+        "V3回到合理开度",
+        "AIAS102回升至≥99.6%",
+        "AR_FRACTION_N2≤0.06%",
+        "AI705≥99.9%且稳定"
+      ],
+      "source_qids": [
+        "Q9",
+        "Q10",
+        "Q11",
+        "Q12",
+        "Q13",
+        "Q30",
+        "Q31"
+      ]
+    },
+    {
+      "node_id": "A3",
+      "parent_id": "A",
+      "node_name": "膨胀空气量过大/旁通不足",
+      "node_type": "basic_cause",
+      "gate": "AND",
+      "cause_chain": "进上塔膨胀空气量↑→精馏段回流比↓→氮区下移→氩馏分含氮量↑→氮塞",
+      "evidence": [
+        {
+          "tag": "FI105/膨胀空气量",
+          "criterion": "超过设计范围；一般不超过加工空气量12%-15%，超过15%风险显著"
+        },
+        {
+          "tag": "FIC1/V6/V450/膨胀空气旁通",
+          "criterion": "旁通阀过小或长期关闭，导致过多膨胀空气进上塔"
+        },
+        {
+          "tag": "AR_FRACTION_N2",
+          "criterion": "升高，≥0.1%为临界"
+        },
+        {
+          "tag": "AI701/氩馏分含氩量",
+          "criterion": "特征性表现可为先降后升"
+        },
+        {
+          "tag": "AR_FRACTION_O2",
+          "criterion": "下降"
+        },
+        {
+          "tag": "AIAS102",
+          "criterion": "下降"
+        },
+        {
+          "tag": "污氮含氧量",
+          "criterion": "降低，反映氧提取率提高"
+        }
+      ],
+      "action": [
+        "适当减少进上塔膨胀空气量，必要时开大旁通至污氮管",
+        "避免长期固定大旁通，应按工况动态调节",
+        "若需增加膨胀空气量，应同步减少氧气取出量并观察15-30min"
+      ],
+      "verify": [
+        "膨胀空气量回到设计范围",
+        "AR_FRACTION_N2下降至≤0.06%",
+        "AIAS102回升",
+        "AI705/PDI701恢复"
+      ],
+      "source_qids": [
+        "Q14",
+        "Q15",
+        "Q16",
+        "Q17",
+        "Q30",
+        "Q31"
+      ]
+    },
+    {
+      "node_id": "A4",
+      "parent_id": "A",
+      "node_name": "氮气/污氮气取出量过小",
+      "node_type": "basic_cause",
+      "gate": "AND",
+      "cause_chain": "氮气/污氮气取出量↓→氮组分排出通道收窄→上塔压力↑→氮区下移→氩馏分含氮量↑→氮塞",
+      "evidence": [
+        {
+          "tag": "产品氮气流量/污氮气取出量",
+          "criterion": "低于设计值80%-85%开始显现积聚；低于70%风险显著"
+        },
+        {
+          "tag": "上塔顶部压力",
+          "criterion": "较正常值升高2-3kPa需警惕，或持续升高"
+        },
+        {
+          "tag": "AR_FRACTION_N2",
+          "criterion": "持续上升，≥0.1%为临界"
+        },
+        {
+          "tag": "AI701/氩馏分含氩量",
+          "criterion": "上升"
+        },
+        {
+          "tag": "AIAS102",
+          "criterion": "可能下降"
+        },
+        {
+          "tag": "污液氮阀门/污氮通道",
+          "criterion": "阀门故障或通道受阻"
+        }
+      ],
+      "action": [
+        "适当增加氮气/污氮气取出量，分步执行，每步稳定15-30min",
+        "降低上塔压力，如污氮去水冷塔压力设定适当降低",
+        "同步V712放空、减少氧气取出量、适当关小V3"
+      ],
+      "verify": [
+        "氮气/污氮气取出量恢复至设计值附近",
+        "上塔压力回落",
+        "AR_FRACTION_N2≤0.06%",
+        "AI705≥99.9%"
+      ],
+      "source_qids": [
+        "Q18",
+        "Q19",
+        "Q20",
+        "Q21",
+        "Q30",
+        "Q31"
+      ]
+    },
+    {
+      "node_id": "C",
+      "parent_id": "A",
+      "node_name": "前端/空气系统扰动触发主塔波动",
+      "node_type": "trigger_group",
+      "gate": "OR",
+      "diagnosis_focus": "该类节点通常不是独立根因，而是触发A类主塔富氩区移动。"
+    },
+    {
+      "node_id": "C1",
+      "parent_id": "C",
+      "node_name": "分子筛切换/均压导致进塔空气量振荡",
+      "node_type": "basic_cause",
+      "gate": "AND",
+      "cause_chain": "分子筛切换/均压→约10%空气量用于均压或进塔空气量振荡→主塔压力/流量波动→氩馏分抽口气液状态波动→含氮量升高→氮塞",
+      "evidence": [
+        {
+          "tag": "分子筛切换事件",
+          "criterion": "切换、均压、放空阀动作在氮塞前发生"
+        },
+        {
+          "tag": "FIC101/总空气流量",
+          "criterion": "切换期间出现明显振荡"
+        },
+        {
+          "tag": "上塔压力/下塔压力",
+          "criterion": "出现波动"
+        },
+        {
+          "tag": "AIAS102/AR_FRACTION_N2/AI705",
+          "criterion": "随后出现氧纯度下降、氩馏分含氮量上升、AI705下降"
+        }
+      ],
+      "action": [
+        "切换前预先增加空压机负荷或减少产品气取出量，减小主塔压力波动",
+        "切换后15-30min重点观察氧纯度、氩馏分组成、粗氩塔阻力",
+        "若进入氮塞流程，按通用流程执行V712放空和主塔调整"
+      ],
+      "verify": [
+        "切换后主塔压力稳定",
+        "AIAS102≥99.6%",
+        "AR_FRACTION_N2≤0.06%",
+        "AI705不下降"
+      ],
+      "source_qids": [
+        "Q31",
+        "原因六"
+      ]
+    },
+    {
+      "node_id": "B",
+      "parent_id": "T0",
+      "node_name": "粗氩塔自身工况失调",
+      "node_type": "cause_group",
+      "gate": "OR",
+      "diagnosis_focus": "若粗氩冷凝器液空侧参数先异常，且早期主塔氧纯度/氩馏分含氮量正常，优先走该分支。"
+    },
+    {
+      "node_id": "B1",
+      "parent_id": "B",
+      "node_name": "粗氩冷凝器换热条件恶化",
+      "node_type": "basic_cause",
+      "gate": "K_OF_N",
+      "k": 2,
+      "cause_chain": "蒸发侧压力高/液空氧含量高/液位过高→液空蒸发温度升高→换热温差缩小→粗氩冷凝量减少→PDI下降/AI705下降→氮塞",
+      "evidence": [
+        {
+          "tag": "CONDENSER_DELTA_T",
+          "criterion": "缩小，甚至趋近于零"
+        },
+        {
+          "tag": "LIC702",
+          "criterion": "液空液位上涨或过高"
+        },
+        {
+          "tag": "蒸发侧压力",
+          "criterion": "升高"
+        },
+        {
+          "tag": "液空氧含量",
+          "criterion": "正常35%-38%；偏高会使换热温差缩小"
+        },
+        {
+          "tag": "PDI701/粗氩塔Ⅱ阻力",
+          "criterion": "下降"
+        },
+        {
+          "tag": "FIC701/FI701",
+          "criterion": "粗氩流量、氩馏分抽取量减少"
+        },
+        {
+          "tag": "AI705",
+          "criterion": "下降"
+        }
+      ],
+      "action": [
+        "立即开大V712放空排氮",
+        "将粗氩冷凝器液空液位控制回合适范围，必要时液位阀切手动",
+        "调节液空回流/下塔液空纯度，使换热温差恢复",
+        "每步稳定15-30min，观察LIC702、PDI701、AI705、温差联动"
+      ],
+      "verify": [
+        "LIC702回落并稳定",
+        "换热温差恢复设计范围",
+        "PDI701回升",
+        "AI705≥99.9%稳定30min"
+      ],
+      "source_qids": [
+        "Q22",
+        "Q23",
+        "Q24",
+        "Q25",
+        "Q29"
+      ]
+    },
+    {
+      "node_id": "B2",
+      "parent_id": "B",
+      "node_name": "粗氩抽取量/氩系统负荷不匹配",
+      "node_type": "basic_cause",
+      "gate": "AND",
+      "cause_chain": "粗氩抽取量过大或过小→粗氩塔回流比失衡→氧-氩分离能力下降/氮浓缩加剧→冷凝器工况恶化→氮塞",
+      "evidence": [
+        {
+          "tag": "FI701/FI702/氩馏分抽取量",
+          "criterion": "偏离正常工况，尤其处理时骤减"
+        },
+        {
+          "tag": "FIC701/粗氩取出量",
+          "criterion": "相对氩馏分量过大；建议粗氩流量控制在氩馏分量约3%以下"
+        },
+        {
+          "tag": "粗氩I塔底部液位/回上塔液体量",
+          "criterion": "波动或回流过多"
+        },
+        {
+          "tag": "AIAS102",
+          "criterion": "若粗氩I塔回上塔液体过多，氧纯度可能下降"
+        }
+      ],
+      "action": [
+        "氩馏分抽取量调整每次不超过当前流量5%-10%，每步稳定15-30min",
+        "粗氩取出量按当前氩馏分量匹配，不宜盲目大幅缩小",
+        "控制粗氩I塔底部回上塔液体量，避免污染液氧"
+      ],
+      "verify": [
+        "粗氩塔底部液位稳定",
+        "AIAS102不继续下降",
+        "PDI701回升",
+        "AI705回升"
+      ],
+      "source_qids": [
+        "Q22",
+        "Q25",
+        "Q28",
+        "案例二"
+      ]
+    },
+    {
+      "node_id": "B3",
+      "parent_id": "B",
+      "node_name": "氩泵密封气内漏/外源氮进入氩系统",
+      "node_type": "basic_cause",
+      "gate": "AND",
+      "cause_chain": "氮气或压缩空气密封内漏→外源氮直接进入氩系统→粗氩含氮量上升→冷凝器内不凝气积聚→氮塞",
+      "evidence": [
+        {
+          "tag": "氩泵密封气类型/流量",
+          "criterion": "投用氮气或压缩空气密封，密封气量异常或装置泄漏"
+        },
+        {
+          "tag": "氩泵出口压力",
+          "criterion": "下降或无法建立"
+        },
+        {
+          "tag": "AI705",
+          "criterion": "长期徘徊约99.1%，切换氩气密封后可升至99.7%以上"
+        },
+        {
+          "tag": "外部泄漏项",
+          "criterion": "排查加温气、启动辅助管线等外部漏入"
+        }
+      ],
+      "action": [
+        "做密封气对比试验：氮气密封→氩气/自密封，观察AI705变化",
+        "粗氩合格后切换为自密封",
+        "若密封装置损坏，停泵检修或更换密封装置"
+      ],
+      "verify": [
+        "AI705由约99.1%提升至99.7%以上并继续恢复",
+        "氩泵出口压力稳定",
+        "密封气流量正常"
+      ],
+      "source_qids": [
+        "Q22",
+        "Q25"
+      ]
+    },
+    {
+      "node_id": "D",
+      "parent_id": "T0",
+      "node_name": "处置不当导致氮塞加重或二次氮塞",
+      "node_type": "secondary_risk_group",
+      "gate": "OR",
+      "diagnosis_focus": "氮塞确认后的风险控制，不作为最初根因，但必须进入流程路由。"
+    },
+    {
+      "node_id": "D1",
+      "parent_id": "D",
+      "node_name": "V712未及时放空或排放不彻底",
+      "node_type": "secondary_risk",
+      "gate": "AND",
+      "evidence": [
+        {
+          "tag": "V712开度/流量",
+          "criterion": "未及时开大，或AI705未恢复就过早关小"
+        },
+        {
+          "tag": "AI705",
+          "criterion": "仍下降或未≥99.9%稳定"
+        },
+        {
+          "tag": "二次下降",
+          "criterion": "短时间恢复后再次下降"
+        }
+      ],
+      "action": [
+        "确认氮塞后立即分2-3次开大V712；严重时可开至100%",
+        "AI705≥99.9%并稳定后才可逐步关回"
+      ],
+      "source_qids": [
+        "Q26",
+        "Q27",
+        "Q28"
+      ]
+    },
+    {
+      "node_id": "D2",
+      "parent_id": "D",
+      "node_name": "氩馏分抽取量骤减或V3/V2大幅操作",
+      "node_type": "secondary_risk",
+      "gate": "OR",
+      "evidence": [
+        {
+          "tag": "FI701/氩馏分抽取量",
+          "criterion": "一次性减少超过5%-10%"
+        },
+        {
+          "tag": "V3/V2阀",
+          "criterion": "氮塞期间一次性大幅操作，超过1%-2%分步原则"
+        },
+        {
+          "tag": "AIAS102",
+          "criterion": "氧纯度被二次冲击而下降"
+        }
+      ],
+      "action": [
+        "所有关键调整分步进行，每步稳定15-30min",
+        "V3以1%-2%或1-2度分步；氩馏分抽取量每次不超过5%-10%"
+      ],
+      "source_qids": [
+        "Q25",
+        "Q28"
+      ]
+    },
+    {
+      "node_id": "D3",
+      "parent_id": "D",
+      "node_name": "过早投用精氩塔",
+      "node_type": "secondary_risk",
+      "gate": "AND",
+      "evidence": [
+        {
+          "tag": "V705",
+          "criterion": "AI705未恢复即打开或精氩塔进料恢复过早"
+        },
+        {
+          "tag": "AI705/PDI701/LIC702/AR_FRACTION_N2",
+          "criterion": "未同时满足恢复标准"
+        },
+        {
+          "tag": "精氩塔压力",
+          "criterion": "异常升高"
+        }
+      ],
+      "action": [
+        "仅当AI705≥99.9%稳定30min、PDI恢复、LIC702回落、AIAS102≥99.6%、AR_FRACTION_N2≤0.06%后逐步开V705",
+        "精氩塔压力控制20-40kPa"
+      ],
+      "source_qids": [
+        "Q28",
+        "Q29"
+      ]
+    }
+  ],
+  "universal_actions": [
+    {
+      "step": 1,
+      "stage": "确认氮塞",
+      "action": "确认AI705持续下降，并至少伴随PDI下降、LIC702上涨、FI701/FIC701下降、换热温差缩小等2项",
+      "purpose": "避免单点误报"
+    },
+    {
+      "step": 2,
+      "stage": "黄金动作",
+      "action": "分2-3次开大V712粗氩放空；若AI705仍快速下降，关闭V705停精氩塔并继续放空",
+      "purpose": "排出已积聚的不凝性氮气"
+    },
+    {
+      "step": 3,
+      "stage": "路由判断",
+      "action": "按时间顺序、AR_FRACTION_N2、AIAS102、粗氩冷凝器液空侧参数判断主塔问题或粗氩塔自身问题",
+      "purpose": "确定优先处理方向"
+    },
+    {
+      "step": 4,
+      "stage": "治本调整",
+      "action": "根据路由减少氧取出量、关小V3、减少进上塔膨胀空气量、增加氮气/污氮气取出量，或优先恢复粗氩冷凝器换热条件",
+      "purpose": "降低氩馏分含氮量或恢复冷凝器能力"
+    },
+    {
+      "step": 5,
+      "stage": "恢复验证",
+      "action": "AI705≥99.9%稳定30min、PDI恢复、LIC702回落、AIAS102≥99.6%、AR_FRACTION_N2≤0.06%",
+      "purpose": "判断是否可逐步恢复氩系统"
+    }
+  ],
+  "recovery_criteria": [
+    "AI705恢复至≥99.9%并稳定30min以上",
+    "粗氩塔阻力恢复至设计值并稳定30min以上",
+    "LIC702回落至设定值附近，液空侧温度与压力正常",
+    "产品氧气纯度AIAS102恢复至≥99.6%",
+    "氩馏分含氮量≤0.06%，含氧量90%-91%",
+    "上下塔阻力和主冷液氧液位稳定",
+    "精氩塔压力投用时控制20-40kPa"
+  ]
+}

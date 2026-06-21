@@ -1,0 +1,29 @@
+version: v1
+anchor_tag: HY_2030_1#ZB_1_Energy_AirCompress_8
+regime_quantiles:
+  low_max: 0.33
+  high_min: 0.67
+parameters:
+  min_samples_per_regime: 40
+  min_samples_global: 90
+  trend_short_window: 7
+  trend_long_window: 30
+  persistence_cap_points: 12
+  robust_z_clip: 3.0
+  fusion_weight: 0.25
+  enter_exit_hysteresis: 0.05
+  hybrid_aggregation_enabled: false
+cache:
+  path: tmp/history_profiles.json
+key_indicator_tags:
+  - HY_2030_1#ZB_1_Cooling_MainHeatExchanger_1
+  - HY_2030_1#ZB_1_Cooling_Expander_2
+  - HY_2030_1#ZB_1_Cooling_Expander_6
+  - HY_2030_1#ZB_1_Energy_CirculatingLiqOxyPump_1
+  - HY_2030_1#ZB_1_Energy_CirculatingLiqOxyPump_2
+  - HY_2030_1#ZB_1_Cooling_MainHeatExchanger_2
+  - HY_2030_1#ZB_1_Cooling_MainHeatExchanger_4
+  - HY_2030_1#ZB_1_Product_OxyNitRectify_9
+  - HY_2030_1#ZB_1_Cooling_MainHeatExchanger_5
+  - HY_2030_1#ZB_1_Product_ArgonRectify_1
+  - HY_2030_1#ZB_1_Energy_AirCompress_8

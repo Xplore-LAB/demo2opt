@@ -1,0 +1,99 @@
+version: v1
+origin_statement: 当前工程规则 / 初始标定，来源可追溯，尚未形成独立统计标定报告。
+
+rules:
+  subsystem_state:
+    rule_name: subsystem_state_thresholds
+    rule_version: v1
+    origin_type: current_engineering_rule
+    origin_note: 子系统状态按异常占比与平均严重度联合判定。
+    validation_status: traceable_unvalidated
+    applicability: 面向当前装置的子系统聚合状态判定。
+    parameters:
+      constrained:
+        abnormal_ratio_gte: 0.5
+        avg_severity_gte: 1.0
+      suboptimal:
+        abnormal_ratio_gte: 0.2
+        avg_severity_gte: 0.8
+
+  plant_state:
+    rule_name: plant_state_thresholds
+    rule_version: v1
+    origin_type: current_engineering_rule
+    origin_note: 装置状态按异常占比、最大严重度与无异常时的优态偏离联合判定。
+    validation_status: traceable_unvalidated
+    applicability: 面向当前装置的整体运行状态判定。
+    parameters:
+      abnormal_unstable:
+        abnormal_ratio_gte: 0.45
+        max_severity_gte: 1.05
+      risk_rising:
+        abnormal_ratio_gte: 0.2
+        max_severity_gte: 0.9
+      no_abnormal:
+        optimal_gap_lte: 0.03
+        stable_gap_lte: 0.12
+
+  risk_level:
+    rule_name: risk_level_thresholds
+    rule_version: v1
+    origin_type: current_engineering_rule
+    origin_note: 风险等级与装置状态分开计算，按最大严重度与异常占比联合判定。
+    validation_status: traceable_unvalidated
+    applicability: 面向当前装置的风险等级评估。
+    parameters:
+      critical:
+        abnormal_ratio_gte: 0.45
+        max_severity_gte: 1.05
+      warning:
+        abnormal_ratio_gte: 0.25
+        max_severity_gte: 0.9
+
+  indicator_state:
+    rule_name: indicator_state_thresholds
+    rule_version: v1
+    origin_type: current_engineering_rule
+    origin_note: 单指标状态标签按指标方向与相对目标参考偏差带宽映射。
+    validation_status: traceable_unvalidated
+    applicability: 面向当前装置的单指标状态判级。
+    parameters:
+      maximize:
+        excellent_gte: 0.0
+        good_gte: -0.03
+        fair_gte: -0.08
+        poor_gte: -0.15
+        low_gte: -0.25
+      minimize:
+        excellent_lte: 0.0
+        good_lte: 0.03
+        fair_lte: 0.08
+        poor_lte: 0.15
+        high_lte: 0.25
+      range:
+        inside_state: 良好
+        below_state: 偏低
+        above_state: 偏高
+
+  severity_formula:
+    rule_name: indicator_severity_formula
+    rule_version: v1
+    origin_type: current_engineering_rule
+    origin_note: 单指标严重度由状态级别基础分、相对偏差和持续点数构成。
+    validation_status: traceable_unvalidated
+    applicability: 面向当前装置的单指标异常严重度计算。
+    parameters:
+      base_score: 0.6
+      diff_weight: 0.35
+      duration_weight: 0.04
+      duration_cap: 0.2
+      level_scores:
+        严重偏高: 1.0
+        严重偏低: 1.0
+        偏离显著: 0.95
+        异常: 0.9
+        差: 0.88
+        偏差较大: 0.82
+        偏高: 0.72
+        偏低: 0.72
+        较差: 0.68

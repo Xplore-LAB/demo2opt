@@ -1,0 +1,12 @@
+tag_code,tag_name_cn,unit,unit_confidence,unified_field,used_in_current_scope,kpi_role,notes
+HY_2030_1#ZB_1_Cooling_MainHeatExchanger_1,河南杭氧-冷量-1#主换-主换冷损,kW,high,HX_Loss_kW,True,energy_proxy_input,口径：主换冷损=复热不足冷损
+HY_2030_1#ZB_1_Cooling_Expander_2,河南杭氧-冷量-1#膨胀机-膨胀机A制冷量,kW,high,ExpA_Cold_kW,True,energy_proxy_input,
+HY_2030_1#ZB_1_Cooling_Expander_6,河南杭氧-冷量-1#膨胀机-膨胀机B制冷量,kW,high,ExpB_Cold_kW,True,energy_proxy_input,
+HY_2030_1#ZB_1_Energy_CirculatingLiqOxyPump_1,河南杭氧-能耗-1#循环液氧泵系统-1号循环液氧泵冷损,kW,high,Pump1_Loss_kW,True,energy_proxy_input,口径：低温泵冷损=1号+2号循环液氧泵冷损
+HY_2030_1#ZB_1_Energy_CirculatingLiqOxyPump_2,河南杭氧-能耗-1#循环液氧泵系统-2号循环液氧泵冷损,kW,high,Pump2_Loss_kW,True,energy_proxy_input,口径：低温泵冷损=1号+2号循环液氧泵冷损
+HY_2030_1#ZB_1_Cooling_MainHeatExchanger_2,河南杭氧-冷量-1#主换-冷箱冷损,kW,high,ColdBox_Loss_kW,True,energy_proxy_input,
+HY_2030_1#ZB_1_Cooling_MainHeatExchanger_4,河南杭氧-冷量-1#主换-计算液氧产量,unknown,low,LOX_Prod_calc,True,aux_production,
+HY_2030_1#ZB_1_Product_OxyNitRectify_9,河南杭氧-产品-1#氧氮精馏-氧提取率,%,high,O2_ExtractionRate_pct,True,extraction_rate,
+HY_2030_1#ZB_1_Cooling_MainHeatExchanger_5,河南杭氧-冷量-1#主换-计算液氩产量,unknown,low,LAR_Prod_calc,True,aux_production,
+HY_2030_1#ZB_1_Product_ArgonRectify_1,河南杭氧-产品-1#氩精馏-氩提取率,%,high,Ar_ExtractionRate_pct,True,extraction_rate,
+HY_2030_1#ZB_1_Energy_AirCompress_8,河南杭氧-能耗-1#空分-1#空压机负荷,%,high,AirComp_Load_pct,True,aux_load,

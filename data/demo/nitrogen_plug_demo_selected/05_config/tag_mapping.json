@@ -1,0 +1,168 @@
+{
+  "timestamp": {
+    "tag": "timestamp",
+    "name_cn": "时间",
+    "role": "时间索引"
+  },
+  "HY_2080_1#AI705.PV": {
+    "tag": "HY_2080_1#AI705.PV",
+    "name_cn": "粗氩氩含量",
+    "raw_description": "粗氩氩含量",
+    "system": "粗氩系统",
+    "role": "主识别信号"
+  },
+  "HY_2080_1#AI701.PV": {
+    "tag": "HY_2080_1#AI701.PV",
+    "name_cn": "氩馏分氩含量",
+    "raw_description": "氩馏分氩含量",
+    "system": "氩馏分",
+    "role": "组分联动"
+  },
+  "HY_2080_1#AIAS704.PV": {
+    "tag": "HY_2080_1#AIAS704.PV",
+    "name_cn": "粗氩氧含量",
+    "raw_description": "粗氩氧含量",
+    "system": "粗氩系统",
+    "role": "组分联动"
+  },
+  "HY_2080_1#FI702.PV": {
+    "tag": "HY_2080_1#FI702.PV",
+    "name_cn": "氩馏分流量",
+    "raw_description": "氩馏分流量",
+    "system": "粗氩系统",
+    "role": "流量联动"
+  },
+  "HY_2080_1#FIC701.PV": {
+    "tag": "HY_2080_1#FIC701.PV",
+    "name_cn": "粗氩流量",
+    "raw_description": "粗氩流量",
+    "system": "粗氩系统",
+    "role": "粗氩抽出"
+  },
+  "HY_2080_1#LIC701.PV": {
+    "tag": "HY_2080_1#LIC701.PV",
+    "name_cn": "粗氩冷凝器液位",
+    "raw_description": "粗氩冷凝器液位",
+    "system": "粗氩系统",
+    "role": "液位联动"
+  },
+  "HY_2080_1#FIQ101.PV": {
+    "tag": "HY_2080_1#FIQ101.PV",
+    "name_cn": "原料空气总流量",
+    "raw_description": "原料空气总流量",
+    "system": "空气系统",
+    "role": "负荷判断"
+  },
+  "HY_2080_1#FIQC102_2.PV": {
+    "tag": "HY_2080_1#FIQC102_2.PV",
+    "name_cn": "产品氧气流量",
+    "raw_description": "产品氧气流量",
+    "system": "产品系统",
+    "role": "产品负荷"
+  },
+  "HY_2080_1#FIC103_2.PV": {
+    "tag": "HY_2080_1#FIC103_2.PV",
+    "name_cn": "产品氮气流量",
+    "raw_description": "产品氮气流量_待确认",
+    "system": "产品系统",
+    "role": "产品负荷"
+  },
+  "HY_2080_1#FIC8.PV": {
+    "tag": "HY_2080_1#FIC8.PV",
+    "name_cn": "液氮流量",
+    "raw_description": "液氮流量",
+    "system": "液氮系统",
+    "role": "产品/液氮负荷"
+  },
+  "HY_2080_1#FIC8.MV": {
+    "tag": "HY_2080_1#FIC8.MV",
+    "name_cn": "V8液氮阀开度",
+    "raw_description": "V8液氮阀开度",
+    "system": "液氮系统",
+    "role": "操作量"
+  },
+  "HY_2080_1#FIC1_1.PV": {
+    "tag": "HY_2080_1#FIC1_1.PV",
+    "name_cn": "膨胀空气进上塔流量",
+    "raw_description": "膨胀空气进上塔流量",
+    "system": "膨胀空气",
+    "role": "冷量相关"
+  },
+  "HY_2080_1#FI105.PV": {
+    "tag": "HY_2080_1#FI105.PV",
+    "name_cn": "膨胀机增压端空气流量",
+    "raw_description": "膨胀机增压端空气流量",
+    "system": "膨胀机",
+    "role": "冷量相关"
+  },
+  "HY_2080_1#PdI2.PV": {
+    "tag": "HY_2080_1#PdI2.PV",
+    "name_cn": "上塔阻力",
+    "raw_description": "上塔阻力",
+    "system": "主塔",
+    "role": "塔状态"
+  },
+  "HY_2080_1#PdI1.PV": {
+    "tag": "HY_2080_1#PdI1.PV",
+    "name_cn": "下塔阻力",
+    "raw_description": "下塔阻力",
+    "system": "主塔",
+    "role": "塔状态"
+  },
+  "HY_2080_1#PIC104.PV": {
+    "tag": "HY_2080_1#PIC104.PV",
+    "name_cn": "污氮气压力",
+    "raw_description": "污氮气压力",
+    "system": "主塔",
+    "role": "压力状态"
+  },
+  "HY_2080_1#PIA2.PV": {
+    "tag": "HY_2080_1#PIA2.PV",
+    "name_cn": "上塔压力",
+    "raw_description": "上塔压力",
+    "system": "主塔",
+    "role": "压力状态"
+  },
+  "HY_2080_1#PI1.PV": {
+    "tag": "HY_2080_1#PI1.PV",
+    "name_cn": "下塔压力",
+    "raw_description": "下塔压力",
+    "system": "主塔",
+    "role": "压力状态"
+  },
+  "HY_2080_1#FIC3.MV": {
+    "tag": "HY_2080_1#FIC3.MV",
+    "name_cn": "V3阀门开度",
+    "raw_description": "V3阀门开度",
+    "system": "主塔/回流",
+    "role": "操作量"
+  },
+  "HY_2080_1#FI131.PV": {
+    "tag": "HY_2080_1#FI131.PV",
+    "name_cn": "中压氮气去用户流量",
+    "raw_description": "中压氮气去用户流量",
+    "system": "产品系统",
+    "role": "物料平衡预留"
+  },
+  "HY_2080_1#TI1003.PV": {
+    "tag": "HY_2080_1#TI1003.PV",
+    "name_cn": "原料空气入口温度",
+    "raw_description": "原料空气入口温度",
+    "system": "空气系统",
+    "role": "物料平衡预留"
+  },
+  "HY_2080_1#AIAS102.PV": {
+    "tag": "HY_2080_1#AIAS102.PV",
+    "name_cn": "产品氧气纯度",
+    "raw_description": "产品氧气纯度",
+    "system": "产品系统",
+    "role": "质量辅助"
+  },
+  "HY_2080_1#AIAS103.PV": {
+    "tag": "HY_2080_1#AIAS103.PV",
+    "name_cn": "产品氮气氧含量",
+    "raw_description": "产品氮气氧含量",
+    "system": "产品系统",
+    "role": "质量辅助"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "enabled": false,
+  "reason": "第一版 Demo 不启用物料平衡计算。需先从物料平衡.sfit/MATLAB 中导出拟合系数和基准值，再转为 material_balance_config.json。",
+  "required_parameters": [
+    "GARBase",
+    "TEMPBase",
+    "TURBBase",
+    "AIRCoef1",
+    "AIRCoef2",
+    "AIRCoef3",
+    "AIRCoef4",
+    "GANCoef1",
+    "GANCoef2",
+    "GANCoef3",
+    "GANCoef4",
+    "TURBCoef1",
+    "TURBCoef2",
+    "TURBCoef3",
+    "FARCoef1",
+    "FARCoef2",
+    "CARCoef1",
+    "CARCoef2",
+    "LEVCoef1",
+    "LEVCoef2"
+  ]
+}

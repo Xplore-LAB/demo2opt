@@ -1,0 +1,156 @@
+{
+  "model": "external_compression_material_balance",
+  "version": "sfit_exported_v1",
+  "source": "Copied from 外压缩物料平衡Python包_交付版/material_balance_python/data/sfit_coefficients_exported.json",
+  "pythonEntryPoint": "material_balance_python.integration_api.run_sfit_material_balance_demo",
+  "baseParameters": {
+    "GARBase": null,
+    "GARBaseMode": "window_median"
+  },
+  "fixedRatios": {
+    "LIN_TO_EGOX": {
+      "numerator": 125,
+      "denominator": 136
+    },
+    "GAR_DELTA_TO_EGOX": {
+      "numerator": 114,
+      "denominator": 136
+    }
+  },
+  "fits": {
+    "PAIR vs. EGOX": {
+      "fitType": "poly2",
+      "coefficients": {
+        "p1": -0.00008661605570531844,
+        "p2": 10.73243852527265,
+        "p3": -101379.58447774078
+      },
+      "goodness": {
+        "sse": 6792951754.7684965,
+        "rsquare": 0.9282595119502686,
+        "dfe": 2548,
+        "adjrsquare": 0.9282032007351589,
+        "rmse": 1632.7870725604262
+      },
+      "excludedCount": 7,
+      "totalCount": 2558
+    },
+    "FIC103AVG vs. EGOX": {
+      "fitType": "poly1",
+      "coefficients": {
+        "p1": 2.1065839898861918,
+        "p2": -6144.787373694948
+      },
+      "goodness": {
+        "sse": 1226074456.5294943,
+        "rsquare": 0.9647914697219802,
+        "dfe": 2549,
+        "adjrsquare": 0.9647776570384659,
+        "rmse": 693.5431786521734
+      },
+      "excludedCount": 7,
+      "totalCount": 2558
+    },
+    "FI702AVG vs. PAIR": {
+      "fitType": "poly1",
+      "coefficients": {
+        "p1": 0.15862436755662965,
+        "p2": 10322.064443687243
+      },
+      "goodness": {
+        "sse": 669604996.3796158,
+        "rsquare": 0.7815873124219825,
+        "dfe": 2544,
+        "adjrsquare": 0.7815014583781232,
+        "rmse": 513.0394830376209
+      },
+      "excludedCount": 12,
+      "totalCount": 2558
+    },
+    "FIC701AVG vs. PAIR": {
+      "fitType": "poly1",
+      "coefficients": {
+        "p1": 0.009620627633866383,
+        "p2": -195.64779030083386
+      },
+      "goodness": {
+        "sse": 9835064.11246566,
+        "rsquare": 0.4690859625306014,
+        "dfe": 2539,
+        "adjrsquare": 0.4688768589317557,
+        "rmse": 62.2382320090941
+      },
+      "excludedCount": 17,
+      "totalCount": 2558
+    },
+    "FIC3AAVG vs. FIC102AVG": {
+      "fitType": "poly1",
+      "coefficients": {
+        "p1": 0.0038000000068854635,
+        "p2": -69.17544458778026
+      },
+      "goodness": {
+        "sse": 48615.214807615004,
+        "rsquare": 0.11255089004600616,
+        "dfe": 2557,
+        "adjrsquare": 0.11255089004600616,
+        "rmse": 4.3603438709916995
+      },
+      "excludedCount": 0,
+      "totalCount": 2558
+    },
+    "FIC3AVG vs. FIC102AVG": {
+      "fitType": "poly1",
+      "coefficients": {
+        "p1": 0.0009000000008291461,
+        "p2": -11.864672331617923
+      },
+      "goodness": {
+        "sse": 1809.9205681436963,
+        "rsquare": 0.41053140809090227,
+        "dfe": 1559,
+        "adjrsquare": 0.41053140809090227,
+        "rmse": 1.0774737541674162
+      },
+      "excludedCount": 998,
+      "totalCount": 2558
+    },
+    "HC1BAVG vs. FIC102AVG": {
+      "fitType": "poly1",
+      "coefficients": {
+        "p1": 0.0018000006047140661,
+        "p2": -21.184784733950643
+      },
+      "goodness": {
+        "sse": 8373.236626427082,
+        "rsquare": 0.5376895550551035,
+        "dfe": 2536,
+        "adjrsquare": 0.5376895550551035,
+        "rmse": 1.817071671225519
+      },
+      "excludedCount": 21,
+      "totalCount": 2558
+    },
+    "FIC1AVG vs. EGOX": {
+      "fitType": "poly1",
+      "coefficients": {
+        "p1": 0.18514952157946976,
+        "p2": 953.3766971811004
+      },
+      "goodness": {
+        "sse": 328375161.0242859,
+        "rsquare": 0.4398027039347696,
+        "dfe": 2548,
+        "adjrsquare": 0.4395828462832526,
+        "rmse": 358.9925513062379
+      },
+      "excludedCount": 8,
+      "totalCount": 2558
+    }
+  },
+  "notes": [
+    "Formula follows material_balance_python/sfit_balance_demo.py.",
+    "If GARBase is null, the frontend uses the current window FI131 median where available, matching the Python demo default behavior.",
+    "Residual deviation percent is (measured - model) / model."
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "success": true,
+  "data": {
+    "default_case": "E11",
+    "description": "独立前端默认使用本地精选病例资源，不依赖后端接口。",
+    "demo_cases": [
+      {
+        "event_id": "E11",
+        "case_type": "主案例：强疑似氮塞",
+        "purpose": "默认展示案例，突出 AI705 明显下凹和 AI701/FI702/FIC701 联动。",
+        "event_start": "2026-04-02 10:19:00",
+        "valley_time": "2026-04-02 10:39:00",
+        "event_end": "2026-04-02 12:13:00",
+        "extract_start": "2026-04-02 09:49:00",
+        "extract_end": "2026-04-02 12:43:00",
+        "raw_5s_file": "02_event_windows_raw_5s/E11_window_raw_5s.csv",
+        "resampled_1min_file": "03_event_windows_1min/E11_window_1min_median.csv",
+        "figure_file": "04_selected_figures/E11_AI705_case_plot.png"
+      },
+      {
+        "event_id": "E19",
+        "case_type": "备用正样本：强疑似氮塞",
+        "purpose": "备用正样本，避免只依赖一个强疑似事件。",
+        "event_start": "2026-04-05 09:19:00",
+        "valley_time": "2026-04-05 09:42:00",
+        "event_end": "2026-04-05 10:55:00",
+        "extract_start": "2026-04-05 08:49:00",
+        "extract_end": "2026-04-05 11:25:00",
+        "raw_5s_file": "02_event_windows_raw_5s/E19_window_raw_5s.csv",
+        "resampled_1min_file": "03_event_windows_1min/E19_window_1min_median.csv",
+        "figure_file": "04_selected_figures/E19_AI705_case_plot.png"
+      },
+      {
+        "event_id": "E08",
+        "case_type": "对照案例：疑似但需排除负荷扰动",
+        "purpose": "展示系统会提示负荷扰动影响，不把所有 AI705 下凹都直接判为氮塞。",
+        "event_start": "2026-03-30 23:38:00",
+        "valley_time": "2026-03-31 00:14:00",
+        "event_end": "2026-03-31 01:24:00",
+        "extract_start": "2026-03-30 23:08:00",
+        "extract_end": "2026-03-31 01:54:00",
+        "raw_5s_file": "02_event_windows_raw_5s/E08_window_raw_5s.csv",
+        "resampled_1min_file": "03_event_windows_1min/E08_window_1min_median.csv",
+        "figure_file": "04_selected_figures/E08_AI705_case_plot.png"
+      },
+      {
+        "event_id": "E06",
+        "case_type": "观察案例：联动证据不足",
+        "purpose": "展示 AI705 有下凹但联动证据不足时给出观察结论。",
+        "event_start": "2026-03-30 02:08:00",
+        "valley_time": "2026-03-30 02:34:00",
+        "event_end": "2026-03-30 03:21:00",
+        "extract_start": "2026-03-30 01:38:00",
+        "extract_end": "2026-03-30 03:51:00",
+        "raw_5s_file": "02_event_windows_raw_5s/E06_window_raw_5s.csv",
+        "resampled_1min_file": "03_event_windows_1min/E06_window_1min_median.csv",
+        "figure_file": "04_selected_figures/E06_AI705_case_plot.png"
+      },
+      {
+        "event_id": "E15",
+        "case_type": "边界案例：短时小幅下凹",
+        "purpose": "展示短时、小幅波动不应直接判为高风险。",
+        "event_start": "2026-04-03 08:29:00",
+        "valley_time": "2026-04-03 08:31:00",
+        "event_end": "2026-04-03 08:38:00",
+        "extract_start": "2026-04-03 07:59:00",
+        "extract_end": "2026-04-03 09:08:00",
+        "raw_5s_file": "02_event_windows_raw_5s/E15_window_raw_5s.csv",
+        "resampled_1min_file": "03_event_windows_1min/E15_window_1min_median.csv",
+        "figure_file": "04_selected_figures/E15_AI705_case_plot.png"
+      },
+      {
+        "event_id": "E26",
+        "case_type": "边界案例：短时小幅下凹",
+        "purpose": "展示边界样本处理能力。",
+        "event_start": "2026-04-18 14:47:00",
+        "valley_time": "2026-04-18 14:50:00",
+        "event_end": "2026-04-18 15:06:00",
+        "extract_start": "2026-04-18 14:17:00",
+        "extract_end": "2026-04-18 15:36:00",
+        "raw_5s_file": "02_event_windows_raw_5s/E26_window_raw_5s.csv",
+        "resampled_1min_file": "03_event_windows_1min/E26_window_1min_median.csv",
+        "figure_file": "04_selected_figures/E26_AI705_case_plot.png"
+      }
+    ],
+    "summary": [],
+    "detail": [],
+    "tag_mapping": {}
+  }
+}

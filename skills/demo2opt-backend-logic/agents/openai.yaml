@@ -1,0 +1,4 @@
+interface:
+  display_name: "Demo2Opt Backend Logic"
+  short_description: "Explain and debug the demo2opt backend."
+  default_prompt: "Use $demo2opt-backend-logic to explain or debug the demo2opt backend pipeline, APIs, and runtime flow."

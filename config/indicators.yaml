@@ -1,0 +1,222 @@
+indicator_profiles:
+  "HY_2030_1#ZB_1_Cooling_MainHeatExchanger_1":
+    objective: minimize
+    category: 主换热器冷损
+    reference_value: 70.0
+    industry_benchmark: 70.0
+    reference_basis_kind: expert_config
+    reference_basis_text: 当前用于主换冷损判级的工程配置参考值，作为目标参考值执行。
+    applicable_scope: 当前装置主换冷损指标
+    applicable_conditions: 常规生产负荷窗口，未声明季节修正。
+    reference_owner: process_engineering
+    last_reviewed_at: "2026-03-13"
+    validation_status: expert_initialized
+    design_tolerance: 0.05
+    summary_good: 主换热器冷损越低越好，说明换热效率和冷量利用较优。
+    summary_bad: 主换热器冷损偏高通常意味着换热恶化或冷量损失增加。
+
+  "HY_2030_1#ZB_1_Cooling_Expander_2":
+    objective: maximize
+    category: 膨胀机制冷量
+    reference_value: 380.0
+    industry_benchmark: 380.0
+    reference_basis_kind: expert_config
+    reference_basis_text: 当前用于 A 机膨胀机制冷量判级的工程配置参考值，作为目标参考值执行。
+    applicable_scope: 当前装置膨胀机 A 制冷量指标
+    applicable_conditions: 常规生产负荷窗口，双机并列运行时优先适用。
+    reference_owner: process_engineering
+    last_reviewed_at: "2026-03-13"
+    validation_status: expert_initialized
+    design_tolerance: 0.06
+    standby_pair:
+      pair_tag: "HY_2030_1#ZB_1_Cooling_Expander_6"
+      self_idle_threshold: 15.0
+      pair_active_threshold: 260.0
+    summary_good: 膨胀机制冷量越高越好，代表主供冷能力充足。
+    summary_bad: 膨胀机制冷量偏低会削弱冷量供给能力。
+
+  "HY_2030_1#ZB_1_Cooling_Expander_6":
+    objective: maximize
+    category: 膨胀机制冷量
+    reference_value: 360.0
+    industry_benchmark: 360.0
+    reference_basis_kind: expert_config
+    reference_basis_text: 当前用于 B 机膨胀机制冷量判级的工程配置参考值，作为目标参考值执行。
+    applicable_scope: 当前装置膨胀机 B 制冷量指标
+    applicable_conditions: 常规生产负荷窗口，双机并列运行时优先适用。
+    reference_owner: process_engineering
+    last_reviewed_at: "2026-03-13"
+    validation_status: expert_initialized
+    design_tolerance: 0.08
+    standby_pair:
+      pair_tag: "HY_2030_1#ZB_1_Cooling_Expander_2"
+      self_idle_threshold: 15.0
+      pair_active_threshold: 260.0
+    summary_good: 膨胀机在主运行工况下制冷量较高，说明供冷能力健康。
+    summary_bad: 膨胀机制冷量持续不足会导致冷量平衡吃紧。
+
+  "HY_2030_1#ZB_1_Energy_CirculatingLiqOxyPump_1":
+    objective: minimize
+    category: 泵冷损
+    reference_value: 0.0
+    industry_benchmark: 0.0
+    reference_basis_kind: expert_config
+    reference_basis_text: 当前用于 1 号循环液氧泵冷损判级的工程配置参考值，接近零值表示附加损耗较小。
+    applicable_scope: 当前装置 1 号循环液氧泵冷损指标
+    applicable_conditions: 设备停运或低负荷时允许接近零值。
+    reference_owner: process_engineering
+    last_reviewed_at: "2026-03-13"
+    validation_status: traceable_unvalidated
+    zero_good_limit: 0.2
+    zero_warn_limit: 1.0
+    summary_good: 循环液氧泵冷损越低越好，接近零通常表示额外损耗较小。
+    summary_bad: 循环液氧泵冷损抬升通常与泵效率或工况失配相关。
+
+  "HY_2030_1#ZB_1_Energy_CirculatingLiqOxyPump_2":
+    objective: minimize
+    category: 泵冷损
+    reference_value: 11.0
+    industry_benchmark: 11.0
+    reference_basis_kind: expert_config
+    reference_basis_text: 当前用于 2 号循环液氧泵冷损判级的工程配置参考值，作为目标参考值执行。
+    applicable_scope: 当前装置 2 号循环液氧泵冷损指标
+    applicable_conditions: 常规生产负荷窗口。
+    reference_owner: process_engineering
+    last_reviewed_at: "2026-03-13"
+    validation_status: traceable_unvalidated
+    design_tolerance: 0.05
+    summary_good: 循环液氧泵冷损越低越好，说明系统附加损耗受控。
+    summary_bad: 循环液氧泵冷损偏高会抬升单耗。
+
+  "HY_2030_1#ZB_1_Cooling_MainHeatExchanger_2":
+    objective: minimize
+    category: 冷箱冷损
+    reference_value: 53.0
+    industry_benchmark: 53.0
+    reference_basis_kind: expert_config
+    reference_basis_text: 当前用于冷箱冷损判级的工程配置参考值，作为目标参考值执行。
+    applicable_scope: 当前装置冷箱冷损指标
+    applicable_conditions: 常规生产负荷窗口。
+    reference_owner: process_engineering
+    last_reviewed_at: "2026-03-13"
+    validation_status: traceable_unvalidated
+    design_tolerance: 0.05
+    summary_good: 冷箱冷损越低越好，说明保冷与冷量管理有效。
+    summary_bad: 冷箱冷损偏高意味着冷量泄漏或保冷效果下降。
+
+  "HY_2030_1#ZB_1_Cooling_MainHeatExchanger_4":
+    objective: maximize
+    category: 液氧产量
+    reference_value: 50.0
+    industry_benchmark: 50.0
+    reference_basis_kind: expert_config
+    reference_basis_text: 当前用于液氧产量判级的工程配置参考值，作为目标参考值执行。
+    applicable_scope: 当前装置液氧产量指标
+    applicable_conditions: 常规生产负荷窗口，未声明季节修正。
+    reference_owner: process_engineering
+    last_reviewed_at: "2026-03-13"
+    validation_status: traceable_unvalidated
+    design_tolerance: 0.08
+    summary_good: 液氧产量越高越好，说明系统产氧能力较强。
+    summary_bad: 液氧产量偏低通常与冷量不足或分离效果下降有关。
+
+  "HY_2030_1#ZB_1_Product_OxyNitRectify_9":
+    objective: maximize
+    category: 氧提取率
+    reference_value: 98.2
+    industry_benchmark: 98.2
+    reference_basis_kind: operation_target
+    reference_basis_text: 当前用于氧提取率判级的运行目标值，作为目标参考值执行。
+    applicable_scope: 当前装置氧提取率指标
+    applicable_conditions: 常规生产负荷窗口。
+    reference_owner: process_engineering
+    last_reviewed_at: "2026-03-13"
+    validation_status: traceable_unvalidated
+    design_tolerance: 0.01
+    summary_good: 氧提取率越高越好，代表分离效率更优。
+    summary_bad: 氧提取率偏低说明分离效率不足。
+
+  "HY_2030_1#ZB_1_Cooling_MainHeatExchanger_5":
+    objective: maximize
+    category: 液氩产量
+    reference_value: 45.0
+    industry_benchmark: 45.0
+    reference_basis_kind: expert_config
+    reference_basis_text: 当前用于液氩产量判级的工程配置参考值，作为目标参考值执行。
+    applicable_scope: 当前装置液氩产量指标
+    applicable_conditions: 常规生产负荷窗口，未声明季节修正。
+    reference_owner: process_engineering
+    last_reviewed_at: "2026-03-13"
+    validation_status: expert_initialized
+    design_tolerance: 0.08
+    summary_good: 液氩产量越高越好，说明氩系统回收较充分。
+    summary_bad: 液氩产量偏低通常与冷量分配偏紧或精馏效率不足有关。
+
+  "HY_2030_1#ZB_1_Product_ArgonRectify_1":
+    objective: maximize
+    category: 氩提取率
+    reference_value: 75.0
+    industry_benchmark: 75.0
+    reference_basis_kind: operation_target
+    reference_basis_text: 当前用于氩提取率判级的运行目标值，作为目标参考值执行。
+    applicable_scope: 当前装置氩提取率指标
+    applicable_conditions: 常规生产负荷窗口。
+    reference_owner: process_engineering
+    last_reviewed_at: "2026-03-13"
+    validation_status: traceable_unvalidated
+    design_tolerance: 0.02
+    summary_good: 氩提取率越高越好，回收效率较优。
+    summary_bad: 氩提取率偏低说明精馏或回收效率不足。
+
+  "HY_2030_1#ZB_1_Energy_AirCompress_8":
+    objective: range
+    category: 负荷
+    reference_basis_kind: operation_target
+    reference_basis_text: 当前用于空压机负荷判级的运行目标区间，以目标值 94 作为区间中心。
+    applicable_scope: 当前装置空压机负荷指标
+    applicable_conditions: 常规生产负荷窗口，允许在高效区间内波动。
+    reference_owner: process_engineering
+    last_reviewed_at: "2026-03-13"
+    validation_status: traceable_unvalidated
+    industry_range:
+      min: 88.0
+      max: 100.0
+      target: 94.0
+    summary_good: 空压机负荷保持在高效区间可兼顾效率与稳定性。
+    summary_bad: 负荷偏离高效区间可能引发能耗恶化或供气波动。
+
+membership:
+  state_weights:
+    优秀: 1.0
+    良好: 0.9
+    一般: 0.7
+    较差: 0.35
+    差: 0.2
+    偏高: 0.15
+    偏低: 0.15
+    异常: 0.12
+    偏差较大: 0.1
+    偏离显著: 0.05
+    严重偏高: 0.0
+    严重偏低: 0.0
+    正常: 0.85
+    Unknown: 0.0
+
+severity:
+  level_scores:
+    严重偏高: 1.0
+    严重偏低: 1.0
+    偏离显著: 0.95
+    异常: 0.9
+    差: 0.88
+    偏差较大: 0.82
+    偏高: 0.72
+    偏低: 0.72
+    较差: 0.68
+  base_score: 0.6
+  diff_weight: 0.35
+  duration_weight: 0.04
+  duration_cap: 0.2
+
+expander:
+  idle_threshold: 10.0

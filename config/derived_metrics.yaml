@@ -1,0 +1,52 @@
+version: v1
+assumptions:
+  HX_Loss_kW_equiv: 主换冷损口径等同复热不足冷损
+  Pump_Loss_kW_equiv: 低温泵冷损=1号循环液氧泵冷损+2号循环液氧泵冷损
+  stability_not_included: 稳定性暂不纳入主评价，仅作为外围辅助观测（可选）
+metrics:
+- metric_code: Pump_Loss_kW
+  name_cn: 低温泵冷损（两台循环液氧泵合计）
+  unit: kW
+  type: derived
+  formula: Pump1_Loss_kW + Pump2_Loss_kW
+  inputs:
+  - Pump1_Loss_kW
+  - Pump2_Loss_kW
+  quality:
+    missing_policy: any_missing->missing
+    range_check: value>=0
+- metric_code: ExpanderCold_kW
+  name_cn: 膨胀机制冷量合计（A+B）
+  unit: kW
+  type: derived
+  formula: ExpA_Cold_kW + ExpB_Cold_kW
+  inputs:
+  - ExpA_Cold_kW
+  - ExpB_Cold_kW
+  quality:
+    missing_policy: any_missing->missing
+    range_check: value>=0
+- metric_code: TotalColdLoss_kW
+  name_cn: 综合冷损功率（主换冷损+冷箱冷损+低温泵冷损）
+  unit: kW
+  type: derived
+  formula: HX_Loss_kW + ColdBox_Loss_kW + Pump_Loss_kW
+  inputs:
+  - HX_Loss_kW
+  - ColdBox_Loss_kW
+  - Pump_Loss_kW
+  quality:
+    missing_policy: any_missing->missing
+    range_check: value>=0
+- metric_code: ColdLossRatio
+  name_cn: 冷损占比（综合冷损/膨胀机制冷量）
+  unit: ratio
+  type: derived
+  formula: TotalColdLoss_kW / ExpanderCold_kW
+  inputs:
+  - TotalColdLoss_kW
+  - ExpanderCold_kW
+  quality:
+    missing_policy: any_missing->missing
+    div0_policy: denom<=eps->missing+flag:DIV0
+    eps: 1.0e-06

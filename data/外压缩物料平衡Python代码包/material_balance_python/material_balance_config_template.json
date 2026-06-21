@@ -1,0 +1,22 @@
+{
+  "GARBase": null,
+  "TEMPBase": null,
+  "TURBBase": null,
+  "AIRCoef1": null,
+  "AIRCoef2": null,
+  "AIRCoef3": null,
+  "AIRCoef4": null,
+  "GANCoef1": null,
+  "GANCoef2": null,
+  "GANCoef3": null,
+  "GANCoef4": null,
+  "TURBCoef1": null,
+  "TURBCoef2": null,
+  "TURBCoef3": null,
+  "FARCoef1": null,
+  "FARCoef2": null,
+  "CARCoef1": null,
+  "CARCoef2": null,
+  "LEVCoef1": null,
+  "LEVCoef2": null
+}

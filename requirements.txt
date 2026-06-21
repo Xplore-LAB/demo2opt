@@ -1,0 +1,40 @@
+﻿# 宸ヤ笟绌哄垎瑁呯疆鏅鸿兘浼樺寲绯荤粺 - 渚濊禆鍖?
+# 鏍稿績妗嗘灦
+langchain-core>=0.1.0
+langchain-community>=0.0.10
+langchain-openai>=0.0.5
+langgraph>=0.2.0
+
+# 鍚戦噺鏁版嵁搴?faiss-cpu>=1.7.4
+
+# 鏁版嵁澶勭悊
+pandas>=2.0.0
+openpyxl>=3.1.0
+
+# 閰嶇疆绠＄悊
+python-dotenv>=1.0.0
+
+# HTTP瀹㈡埛绔?requests>=2.31.0
+
+# 鏁版嵁楠岃瘉
+pydantic>=2.0.0
+PyYAML>=6.0.0
+
+# PDF鐢熸垚锛堝彲閫夛級
+reportlab>=4.0.0
+matplotlib>=3.8.0
+
+# 寮傛鏀寔
+asyncio>=3.4.3
+
+# API鏈嶅姟鍣?flask>=2.3.0
+flask-cors>=4.0.0
+
+# WebSocket
+websockets>=12.0
+
+# 娴嬭瘯妗嗘灦
+playwright>=1.40.0
+pytest>=7.4.0
+pytest-playwright>=0.4.0
+
