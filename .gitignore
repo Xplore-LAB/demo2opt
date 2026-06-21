@@ -76,3 +76,10 @@ Thumbs.db
 tmp/
 temp/
 *.tmp
+# Large data files (>100MB)
+衢州杭氧1#42000数据.csv
+衢州杭氧1#42000数据.xlsx
+data/nitrogen_demo.db
+data/衢州杭氧1#42000数据.csv
+frontend/dist/data/quzhou-hangyang-42000-full.csv
+frontend/public/data/quzhou-hangyang-42000-full.csv
